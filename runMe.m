@@ -157,7 +157,10 @@ C = ['r','g','b','c'];
 proportions_to_match = get_cluster_counts_2(human_data_table,unique(human_data_table.experiment),unique(human_data_table.cluster_number),1);
 % disp([keys(proportions_to_match).',values(proportions_to_match).'])
 recreate_average_xyz_using_different_proportions(human_data_table,cell2mat(values(proportions_to_match).'),1000,1,1,C,"Average XYZ plot recreated from incorrect proportional subsets","Average Sigmoid Experiment 2",human_stats_map)
-
+%% create dec making maps with dec making boundaries for individuals
+david_runme;
+%% create average dec making maps with boundaries for tasks
+hum_new_tasks_runme;
 %% (NO LONGER USED) FINAL RAT CLUSTERING CONFIGURATION DO NOT RUN AGAIN run 3d fcm analysis for rat reward choice data
 % cd("reward_choice Sigmoid Data\");
 % rat_data_dir = string(cd(".."));
