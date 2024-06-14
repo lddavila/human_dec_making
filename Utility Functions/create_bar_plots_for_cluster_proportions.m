@@ -1,4 +1,4 @@
-function [] = create_bar_plots_for_cluster_proportions(data_table,do_it_in_one_plot,dir_to_save_figs_to,human_stats_map)
+function [] = create_bar_plots_for_cluster_proportions(data_table,do_it_in_one_plot,dir_to_save_figs_to,human_stats_map,version_name)
 dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to_save_figs_to);
 unique_clusters = unique(data_table.cluster_number);
 unique_experiments = unique(data_table.experiment);
@@ -37,9 +37,10 @@ if do_it_in_one_plot
         strcat("# of probability sessions",string(human_stats_map("probability Number of Data Points"))),...
         strcat("# of social sessions",string(human_stats_map("social Number of Data Points"))),...
         strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-        "Created By create\_bar\_plots\_for\_cluster\_proportions.m"]);
+        "Created By create\_bar\_plots\_for\_cluster\_proportions.m", ...
+        version_name]);
     legend(legend_strings);
-    saveas(gcf,strcat(dir_to_save_figs_to,"\Human Cluster Proportions.fig"),"fig");
+    saveas(gcf,strcat(dir_to_save_figs_to,"\Human Cluster Proportions"," ",version_name,".fig"),"fig");
 
 
 
@@ -58,8 +59,9 @@ else
             strcat("# of probability sessions",string(human_stats_map("probability Number of Data Points"))),...
             strcat("# of social sessions",string(human_stats_map("social Number of Data Points"))),...
             strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-            "Created By create\_bar\_plots\_for\_cluster\_proportions.m"]);
-        saveas(gcf,strcat(dir_to_save_figs_to,"\Human Cluster Proportions For Cluster",string(i),".fig"),"fig");
+            "Created By create\_bar\_plots\_for\_cluster\_proportions.m", ...
+            version_name]);
+        saveas(gcf,strcat(dir_to_save_figs_to,"\Human Cluster Proportions For Cluster",string(i)," ",version_name,".fig"),"fig");
     end
 end
 

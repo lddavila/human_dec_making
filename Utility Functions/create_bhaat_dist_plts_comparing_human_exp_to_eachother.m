@@ -1,4 +1,4 @@
-function [] = create_bhaat_dist_plts_comparing_human_exp_to_eachother(data_table,dir_to_save_figs_to,distinct_colors,human_stats_map)
+function [] = create_bhaat_dist_plts_comparing_human_exp_to_eachother(data_table,dir_to_save_figs_to,distinct_colors,human_stats_map,version_name)
 unique_clusters = unique(data_table.cluster_number);
 unique_experiments = unique(data_table.experiment);
 dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to_save_figs_to);
@@ -51,7 +51,7 @@ for i=1:length(unique_experiments)
         X = categorical(x_tick_for_bar);
         X = reordercats(X,x_tick_for_bar);
         legend(legend_strings);
-        title(strcat(curr_exp_1," Vs ",curr_exp_2))
+        title([strcat(curr_exp_1," Vs ",curr_exp_2),version_name])
         set(gcf,'renderer','Painters');
 
         disp(strcat("Meaan bhaat_distance of ",curr_exp_1," Vs ",curr_exp_2));
@@ -63,7 +63,7 @@ for i=1:length(unique_experiments)
         bar(X,array_of_bhaat_distance);
         xlabel("Cluster");
         ylabel("mean bhaat distance");
-        title(strcat("Mean bhaat distance Between ",curr_exp_1," Clusters Vs ",curr_exp_2, " Clusters"))
+        title([strcat("Mean bhaat distance Between ",curr_exp_1," Clusters Vs ",curr_exp_2, " Clusters"),version_name])
         set(gcf,'renderer','Painters');
 
         
@@ -75,9 +75,10 @@ for i=1:length(unique_experiments)
             strcat("Number of ",curr_exp_2," Sessions:",    string(human_stats_map(strcat(curr_exp_2," Number of Data Points")))), ...
             strcat("Number of ",curr_exp_2," Subjects:",    string(human_stats_map(strcat(curr_exp_2," Number Of Unique Subjects")))), ...
             strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-            "Created By create\_bhaat\_dist\_plts\_comparing\_human\_exp\_to\_eachother.m"])
+            "Created By create\_bhaat\_dist\_plts\_comparing\_human\_exp\_to\_eachother.m", ...
+            version_name])
 
-        saveas(gcf,strcat(dir_to_save_figs_to,"\","Mean bhaat distance Between ",curr_exp_1," Clusters Vs ",curr_exp_2, " Clusters.fig"),"fig")
+        saveas(gcf,strcat(dir_to_save_figs_to,"\","Mean bhaat distance Between ",curr_exp_1," Clusters Vs ",curr_exp_2, " Clusters ",version_name,".fig"),"fig")
     end
 end
 

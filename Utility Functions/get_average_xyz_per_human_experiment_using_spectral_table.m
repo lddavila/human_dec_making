@@ -1,4 +1,4 @@
-function [] =get_average_xyz_per_human_experiment_using_spectral_table(human_data_table, C,dir_to_save_figs_to,human_stats_map)
+function [] =get_average_xyz_per_human_experiment_using_spectral_table(human_data_table, C,dir_to_save_figs_to,human_stats_map,version_name)
 dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to_save_figs_to);
 
 hs = [];
@@ -36,6 +36,7 @@ end
 legend(hs,story_types)
 title([title_strings, ...
     strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-    "Created By get\_average\_xyz\_per\_human\_experiment\_using\_spectral\_table.m"]);
-saveas(gcf,strcat(dir_to_save_figs_to,"\All Human Data Average XYZ.fig"),"fig")
+    "Created By get\_average\_xyz\_per\_human\_experiment\_using\_spectral\_table.m", ...
+    version_name]);
+saveas(gcf,strcat(dir_to_save_figs_to,"\All Human Data Average XYZ ",version_name,".fig"),"fig")
 end

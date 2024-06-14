@@ -2,20 +2,20 @@
 [init_approach_data, r_ratings, c_ratings] = get_new_task();
 approach_data = clean_ingested_new_task(init_approach_data);
 
-%% add new column for story type 
+% add new column for story type 
 [approach_data] = add_story_column_loop(approach_data);
 
-%% get data w enough trials 
+% get data w enough trials 
 min_num_sessions = 2;
 [N_trial_data, idxs] = filter_hum_appr_data(approach_data, 16*min_num_sessions);
 
-%% combine trials for dec maps
+% combine trials for dec maps
 appr_avoid_combined_data = combine_for_map(N_trial_data, "approach_avoid");
 social_combined_data = combine_for_map(N_trial_data, "social");
 probability_combined_data = combine_for_map(N_trial_data, "probability");
 moral_combined_data = combine_for_map(N_trial_data, "moral");
 
-%% separate each individual story out by type
+% separate each individual story out by type
 appr_avoid_sessions = sessions_by_tasktype(N_trial_data, "approach_avoid");
 social_sessions = sessions_by_tasktype(N_trial_data, "social");
 probability_sessions = sessions_by_tasktype(N_trial_data, "probability");

@@ -1,27 +1,27 @@
+if run_the_first_part
+    % ingest data
+    [init_approach_data, r_ratings, c_ratings] = get_new_task();
+    approach_data = clean_ingested_new_task(init_approach_data);
 
-% ingest data
-[init_approach_data, r_ratings, c_ratings] = get_new_task();
-approach_data = clean_ingested_new_task(init_approach_data);
+    %add new column for story type
+    [approach_data] = add_story_column_loop(approach_data);
 
-%add new column for story type 
-[approach_data] = add_story_column_loop(approach_data);
+    % get data w enough trials
+    min_num_sessions = 2;
+    [N_trial_data, idxs] = filter_hum_appr_data(approach_data, 16*min_num_sessions);
 
-% get data w enough trials 
-min_num_sessions = 2;
-[N_trial_data, idxs] = filter_hum_appr_data(approach_data, 16*min_num_sessions);
+    % combine trials for dec maps
+    appr_avoid_combined_data = combine_for_map(N_trial_data, "approach_avoid");
+    social_combined_data = combine_for_map(N_trial_data, "social");
+    probability_combined_data = combine_for_map(N_trial_data, "probability");
+    moral_combined_data = combine_for_map(N_trial_data, "moral");
 
-% combine trials for dec maps
-appr_avoid_combined_data = combine_for_map(N_trial_data, "approach_avoid");
-social_combined_data = combine_for_map(N_trial_data, "social");
-probability_combined_data = combine_for_map(N_trial_data, "probability");
-moral_combined_data = combine_for_map(N_trial_data, "moral");
-
-% separate each individual story out by type
-appr_avoid_sessions = sessions_by_tasktype(N_trial_data, "approach_avoid");
-social_sessions = sessions_by_tasktype(N_trial_data, "social");
-probability_sessions = sessions_by_tasktype(N_trial_data, "probability");
-moral_sessions = sessions_by_tasktype(N_trial_data, "moral");
-
+    % separate each individual story out by type
+    appr_avoid_sessions = sessions_by_tasktype(N_trial_data, "approach_avoid");
+    social_sessions = sessions_by_tasktype(N_trial_data, "social");
+    probability_sessions = sessions_by_tasktype(N_trial_data, "probability");
+    moral_sessions = sessions_by_tasktype(N_trial_data, "moral");
+end
 %%
 % clc;
 want_bdry = 0;
@@ -34,9 +34,14 @@ data{4} = moral_combined_data;
 path_to_save = 'average_sigmoids';
 all_data = {appr_avoid_sessions,social_sessions,probability_sessions,moral_sessions};
 
-plot_avg_spec_cluster_psychs(human_data_table,all_data,1,story_types,"average_sigmoids",1) 
-plot_avg_spec_cluster_psychs_for_whole_experiment(human_data_table,all_data,story_types,"average_sigmoids_3",1)
-
+if create_average_sigmoid_by_cluster_and_task
+    plot_avg_spec_cluster_psychs(human_data_table,all_data,1,story_types,"average_sigmoids_version_2",1,version_name)
+    % plot_avg_spec_cluster_psychs_for_whole_experiment(human_data_table,all_data,story_types,"average_sigmoids_3_version_2",1)
+end
+if create_average_sigmoids_by_cluster_only
+    mkdir("average_sigmoids_per_cluster")
+    all_ys = plot_avg_spec_cluster_psychs_dont_split_by_story(human_data_table,all_data,1,story_types,"average_sigmoids_per_cluster",1,version_name);
+end
 
 
 % all_non_aa_data = {};

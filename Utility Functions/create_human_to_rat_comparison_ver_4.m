@@ -1,4 +1,4 @@
-function create_human_to_rat_comparison_ver_4(name_of_rat_file,human_cluster_table,directory_of_rat_file,b_dist_plots_dir,colors,human_stats_map,rat_stats_map,date_created)
+function create_human_to_rat_comparison_ver_4(name_of_rat_file,human_cluster_table,directory_of_rat_file,b_dist_plots_dir,colors,human_stats_map,rat_stats_map,date_created,version_name)
 % home_dir = cd(directory_of_human_file);
 % % human_cluster_table = readtable(name_of_human_file);
 % cd(home_dir)
@@ -79,9 +79,10 @@ legend(hs,legend_strings_for_3d_plot);
 title([sprintf("Human Data Approach Avoid: # of subjects:%i # of sessions:%i",human_stats_map("approach_avoid Number Of Unique Subjects"),human_stats_map("approach_avoid Number of Data Points")), ...
         sprintf("Rat Data: # of subjects:%i # of sessions: %i",rat_stats_map('Number Of Unique Subjects'),rat_stats_map('Number of Data Points')), ...
          strcat("Date Created:",date_created), ...
-         "created by create\_human\_to\_rat\_comparison\_ver\_4"]);
+         "created by create\_human\_to\_rat\_comparison\_ver\_4", ...
+         version_name]);
 set(gcf,'renderer','Painters');
-saveas(gcf,strcat(dir_with_b_dist_plots_abs,"\","Human to rat 3d all clusters together and bhaat dist bar plot"),"fig");
+saveas(gcf,strcat(dir_with_b_dist_plots_abs,"\","Human to rat 3d all clusters together ",version_name),"fig");
 
 
 % subplot(1,2,2)
@@ -98,10 +99,11 @@ x = reordercats(x,to_be_x_for_bar_chart);
 bar(x,array_of_mean_of_bhaat_dist.');
 legend(legend_string_for_bar_chart)
 set(gcf,'renderer','Painters');
-saveas(gcf,strcat(dir_with_b_dist_plots_abs,"\","Human to rat 3d all clusters together and bhaat dist bar plot"),"fig");
+saveas(gcf,strcat(dir_with_b_dist_plots_abs,"\","Human to rat 3d all clusters together and bhaat dist bar plot ", version_name),"fig");
 
 title([sprintf("Human Data Approach Avoid: # of subjects:%i # of sessions:%i",human_stats_map("approach_avoid Number Of Unique Subjects"),human_stats_map("approach_avoid Number of Data Points")), ...
         sprintf("Rat Data: # of subjects:%i # of sessions: %i",rat_stats_map('Number Of Unique Subjects'),rat_stats_map('Number of Data Points')), ...
          strcat("Date Created:",date_created), ...
-         "created by create\_human\_to\_rat\_comparison\_ver\_4"]);
+         "created by create\_human\_to\_rat\_comparison\_ver\_4", ...
+         version_name]);
 end

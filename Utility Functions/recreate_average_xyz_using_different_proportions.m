@@ -1,4 +1,4 @@
-function [] = recreate_average_xyz_using_different_proportions(human_data_table,proportions_to_match,n,same_scale,want_plot,C,dir_to_save_figs_to_1,dir_to_save_figs_to_2,human_stats_map)
+function [] = recreate_average_xyz_using_different_proportions(human_data_table,proportions_to_match,n,same_scale,want_plot,C,dir_to_save_figs_to_1,dir_to_save_figs_to_2,human_stats_map,version_name)
 story_types = unique(human_data_table.experiment);
 unique_clusters = unique(human_data_table.cluster_number);
 hs = [];
@@ -66,8 +66,8 @@ end
 % zlim([-1.8,-0.4])
 title([title_strings, ...
     strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-    "Created By recreate\_average\_xyz\_using\_different\_proportions.m"])
+    "Created By recreate\_average\_xyz\_using\_different\_proportions.m",version_name])
 legend(hs,string(story_types))
 dir_to_save_figs_to_1 = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to_save_figs_to_1);
-saveas(gcf,strcat(dir_to_save_figs_to_1,"\Average XYZ plot using wrong proportions.fig"),"fig")
+saveas(gcf,strcat(dir_to_save_figs_to_1,"\Average XYZ plot using wrong proportions ",version_name,".fig"),"fig")
 end

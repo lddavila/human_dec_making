@@ -1,4 +1,4 @@
-function all_psych_data = plot_avg_spec_cluster_psychs(spectral_table, all_data, same_scale, story_types, save_to, want_plot)
+function all_psych_data = plot_avg_spec_cluster_psychs(spectral_table, all_data, same_scale, story_types, save_to, want_plot,version_name)
 
 [totals,~] = setup_for_avgs(all_data,story_types,1,0); % returns a cell array where each item is a table with only a single experiment type
 
@@ -15,7 +15,7 @@ for s = 1:length(story_types)
     all_psych_data = [all_psych_data; psych_to_cluster];
 
     if want_plot
-        create_avg_psych(sesh_data,psych_to_cluster,story_type + " spectral",same_scale,save_to)
+        create_avg_psych(sesh_data,psych_to_cluster,story_type + " spectral"+version_name,same_scale,save_to)
     end
 end
 end

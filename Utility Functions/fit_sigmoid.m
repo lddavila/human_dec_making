@@ -1,5 +1,5 @@
 function [fit_object_to_be_returned,gof_to_be_returned,type] = fit_sigmoid(x,y)
-disp([x.',y.'])
+% disp([x.',y.'])
 [fitobject1, gof1]= fit(x.',y.','a*x+b');
 
 [fitobject2, gof2] = fit(x.', y.', '1 / (1 + (b*exp(-c * x)))');

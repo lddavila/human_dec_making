@@ -1,4 +1,4 @@
-function create_human_to_rat_comparison_ver_3(name_of_rat_file,human_cluster_table,directory_of_rat_file,b_dist_plots_dir,colors,human_stats_map,rat_stats_map,date_created)
+function create_human_to_rat_comparison_ver_3(name_of_rat_file,human_cluster_table,directory_of_rat_file,b_dist_plots_dir,colors,human_stats_map,rat_stats_map,date_created,version_name)
 % home_dir = cd(directory_of_human_file);
 % % human_cluster_table = readtable(name_of_human_file);
 % cd(home_dir)
@@ -59,14 +59,15 @@ for i=1:length(rat_clusters)
     view(gca,[-62.7563 ,-250.1988, 184.7120])
     % gca.CameraPosition = [-62.7563 -250.1988 184.7120];
     % gca.CameraViewAngle = 10.5970;
-    % saveas(gcf,strcat(dir_with_b_dist_plots_abs,"\Rat Cluster ",string(i)," Compared To all other human Clusters.fig"))
+    saveas(gcf,strcat(dir_with_b_dist_plots_abs,"\Rat Cluster ",string(i)," Compared To all other human Clusters ",version_name,".fig"))
     % close(gcf);
     set(gcf,'renderer','Painters');
     title([strcat("Rat Cluster ",string(i)," Compared to Human Clusters"),sprintf("Human Data Approach Avoid: # of subjects:%i # of sessions:%i",human_stats_map("approach_avoid Number Of Unique Subjects"), ...
         human_stats_map("approach_avoid Number of Data Points")), sprintf("Rat Data: # of subjects:%i # of sessions: %i", ...
         rat_stats_map('Number Of Unique Subjects'), rat_stats_map('Number of Data Points')), ...
         strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-        "Created by create\_human\_to\_rat\_comparsion\_ver\_3.m"]);
+        "Created by create\_human\_to\_rat\_comparsion\_ver\_3.m", ...
+        version_name]);
     set(gcf,'renderer','Painters');
 
     % subplot(1,2,2)
@@ -82,8 +83,9 @@ for i=1:length(rat_clusters)
         human_stats_map("approach_avoid Number of Data Points")), sprintf("Rat Data: # of subjects:%i # of sessions: %i", ...
         rat_stats_map('Number Of Unique Subjects'), rat_stats_map('Number of Data Points')), ...
         strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-        "Created by create\_human\_to\_rat\_comparsion\_ver\_3.m"])
-    saveas(gcf,strcat(dir_with_b_dist_plots_abs,"\Bhattacharyya Distance From Rat Cluster ", string(i), " To all other human Clusters.fig"))
+        "Created by create\_human\_to\_rat\_comparsion\_ver\_3.m", ...
+        version_name])
+    saveas(gcf,strcat(dir_with_b_dist_plots_abs,"\Bhattacharyya Distance From Rat Cluster ", string(i), " To all other human Clusters ",version_name,".fig"))
     hold off;
     set(gcf,'renderer','Painters');
     % close(gcf)

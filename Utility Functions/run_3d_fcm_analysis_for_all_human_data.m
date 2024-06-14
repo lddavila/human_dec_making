@@ -21,11 +21,11 @@ legend_strings = [];
 for i=1:optimum_number_of_clusters
     indexes = find(U(i,:)==maxU);
     number_of_sigmoids_on_plot = number_of_sigmoids_on_plot+size(indexes,2);
-    h = scatter3(xVsYVsZ(indexes,1),xVsYVsZ(indexes,2),xVsYVsZ(indexes,3));
+    h = scatter3(xVsYVsZ(indexes,1),xVsYVsZ(indexes,2),xVsYVsZ(indexes,3),'filled');
     array_of_scatter_objects = [array_of_scatter_objects,h];
     hold on;
     legend_strings = [legend_strings,strcat("Cluster ",string(i))];
-    % array_of_plot_objects{i} = plot3(centers_determined_by_fcm(i,1),centers_determined_by_fcm(i,2),centers_determined_by_fcm(i,3),"xk",MarkerSize=30,LineWidth=3);
+    array_of_plot_objects{i} = plot3(centers_determined_by_fcm(i,1),centers_determined_by_fcm(i,2),centers_determined_by_fcm(i,3),"xk",MarkerSize=30,LineWidth=3);
     cluster_table = getClusterTable3d(xVsYVsZ,labels,indexes,i,experiments_col);
     writetable(cluster_table,strcat(cluster_table_dir,"\",experiment,".xlsx"), 'WriteMode','append')
     dt_row = [dataTipTextRow("Cluster\_Number: ",i)];

@@ -1,4 +1,4 @@
-function [] = create_heat_maps_for_chi_squared_significance(data_table,dir_to_save_figs_to,mask_or_dont,mask_level,human_stats_map)
+function [] = create_heat_maps_for_chi_squared_significance(data_table,dir_to_save_figs_to,mask_or_dont,mask_level,human_stats_map,version_name)
 unique_clusters = unique(data_table.cluster_number);
 unique_experiments = unique(data_table.experiment);
 dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to_save_figs_to);
@@ -20,7 +20,7 @@ for i=1:length(unique_experiments)
             cluster_counts_matrix_for_heat_map(i,j) = chi2test([exp_1_cluster_counts;exp_2_cluster_counts]);
             if mask_or_dont
                 if cluster_counts_matrix_for_heat_map(i,j) > mask_level
-                    % cluster_counts_matrix_for_heat_map(i,j) = 3;
+                    cluster_counts_matrix_for_heat_map(i,j) = 3;
                 end
             end
 
@@ -29,7 +29,9 @@ for i=1:length(unique_experiments)
 end
 
 figure('units','normalized','outerposition',[0 0 1 1]);
+
 heatmap(unique_experiments,unique_experiments,cluster_counts_matrix_for_heat_map,'CellLabelFormat','%.3f');
+colormap(flipud(sky))
 title(["Significance Determined By Chi Squared Test", ...
     strcat("3 Indicates Signicance Level > ",string(mask_level)), ...
     strcat("Number Of approach avoid Sessions:",string(human_stats_map(strcat("approach_avoid"," Number of Data Points")))," Number of Subjects:",string(human_stats_map('approach_avoid Number Of Unique Subjects'))), ...
@@ -37,10 +39,11 @@ title(["Significance Determined By Chi Squared Test", ...
     strcat("Number Of probability Sessions:",      string(human_stats_map(strcat("probability"," Number of Data Points")))," Number of Subjects:",string(human_stats_map('probability Number Of Unique Subjects'))), ...
     strcat("Number Of social Sessions:",      string(human_stats_map(strcat("social"," Number of Data Points")))," Number of Subjects:",string(human_stats_map('social Number Of Unique Subjects'))), ...
     strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-    "Created By create\_heat\_maps\_for\_chi\_squared\_significance.m"]);
+    "Created By create\_heat\_maps\_for\_chi\_squared\_significance.m", ...
+    strrep(version_name,"_","\_")]);
 xlabel("experiment")
 ylabel("experiment")
 
-saveas(gcf,strcat(dir_to_save_figs_to,"\Significant Change In Density"),"fig")
+saveas(gcf,strcat(dir_to_save_figs_to,"\Significant Change In Density"," ",version_name),"fig")
 
 end

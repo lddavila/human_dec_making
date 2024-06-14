@@ -1,4 +1,4 @@
-function [] = compare_human_data_to_human_data_using_dg_for_sig(data_table,dir_to_save_figs_to,human_stats_map)
+function [] = compare_human_data_to_human_data_using_dg_for_sig(data_table,dir_to_save_figs_to,human_stats_map,version_name)
 dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to_save_figs_to);
 unique_clusters = unique(data_table.cluster_number);
 unique_experiments = unique(data_table.experiment);
@@ -37,10 +37,11 @@ for i=1:length(unique_experiments)
             strcat("Number of ",curr_exp_2," Sessions:",    string(human_stats_map(strcat(curr_exp_2," Number of Data Points")))), ...
             strcat("Number of ",curr_exp_2," Subjects:",    string(human_stats_map(strcat(curr_exp_2," Number Of Unique Subjects")))), ...
             strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-            "Created By compare\_human\_data\_to\_human\_data\_using\_dg\_for\_sig.m"])
+            "Created By compare\_human\_data\_to\_human\_data\_using\_dg\_for\_sig.m", ...
+            version_name])
 
 
-        saveas(gcf,strcat(dir_to_save_figs_to,"\Experiment 1 ", curr_exp," Experiment 2 ",curr_exp_2, "P-Value Per DG_chi2test3 ",string(p),".fig"),"fig");
+        saveas(gcf,strcat(dir_to_save_figs_to,"\Experiment 1 ", curr_exp," Experiment 2 ",curr_exp_2, "P-Value Per DG_chi2test3 ",string(p)," ",version_name,".fig"),"fig");
 
     end
 

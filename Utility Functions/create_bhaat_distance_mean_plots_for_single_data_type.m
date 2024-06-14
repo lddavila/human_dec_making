@@ -1,5 +1,6 @@
-function [] = create_bhaat_distance_mean_plots_for_single_data_type(data_table,colors,type_of_data,the_title,dir_to_save_figs_to,number_of_unique_subjects,number_of_sessions,date_created)
+function [] = create_bhaat_distance_mean_plots_for_single_data_type(data_table,colors,type_of_data,the_title,dir_to_save_figs_to,number_of_unique_subjects,number_of_sessions,date_created,version_name)
     figure('units','normalized','outerposition',[0 0 1 1])
+    dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to_save_figs_to);
     
     unique_clusters = unique(data_table.cluster_number);
     legend_strings = cell(1,length(unique_clusters));
@@ -26,9 +27,10 @@ function [] = create_bhaat_distance_mean_plots_for_single_data_type(data_table,c
         strcat("Number Of Subjects: ",string(number_of_unique_subjects)), ...
         strcat("Number of Sessions: ",string(number_of_sessions)), ...
         strcat("Date Created:",date_created), ...
-        "Created by create\_bhaat\_distance\_mean\_plots\_for\_single\_data\_type.m"])
+        "Created by create\_bhaat\_distance\_mean\_plots\_for\_single\_data\_type.m", ...
+        version_name])
     set(gcf,'renderer','Painters');
-    saveas(gcf,strcat(dir_to_save_figs_to,"\",the_title," the 3d plot.fig"),"fig");
+    saveas(gcf,strcat(dir_to_save_figs_to,"\",the_title," the 3d plot ",version_name,".fig"),"fig");
 
 
     x = categorical(legend_strings);
@@ -51,11 +53,12 @@ function [] = create_bhaat_distance_mean_plots_for_single_data_type(data_table,c
         strcat("Number Of Subjects: ",string(number_of_unique_subjects)), ...
         strcat("Number of Sessions: ",string(number_of_sessions)), ...
         strcat("Date Created:",date_created), ...
-        "Created by create\_bhaat\_distance\_mean\_plots\_for\_single\_data\_type.m"])
+        "Created by create\_bhaat\_distance\_mean\_plots\_for\_single\_data\_type.m", ...
+        version_name])
 
     dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to_save_figs_to);
 
     set(gcf,'renderer','Painters');
-    saveas(gcf,strcat(dir_to_save_figs_to,"\",the_title,"bar plot.fig"),"fig");
+    saveas(gcf,strcat(dir_to_save_figs_to,"\",the_title,"bar plot ",version_name,".fig"),"fig");
 
 end

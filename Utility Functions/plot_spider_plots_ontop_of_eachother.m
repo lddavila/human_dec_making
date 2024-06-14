@@ -1,4 +1,4 @@
-function [] = plot_spider_plots_ontop_of_eachother(probabilities, point_labels,title_of_figure,legend_strings,dir_to_save_things_to)
+function [] = plot_spider_plots_ontop_of_eachother(probabilities, point_labels,title_of_figure,legend_strings,dir_to_save_things_to,version_name)
 figure('units','normalized','outerposition',[0 0 1 1])
 axes_limits = [zeros(1,length(probabilities));max(probabilities)+0.05];
 axes_labels = cell(1,length(point_labels));
@@ -35,6 +35,6 @@ legend(legend_strings);
 set(gcf,'renderer','Painters');
 disp("the probability submitted");
 disp(probabilities);
-saveas(gcf,strcat(dir_to_save_things_to,"\",title_of_figure(1),".fig"),"fig");
+saveas(gcf,strcat(dir_to_save_things_to,"\",title_of_figure(1)," ",version_name,".fig"),"fig");
 
 end

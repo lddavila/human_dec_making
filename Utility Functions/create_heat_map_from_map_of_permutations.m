@@ -1,4 +1,4 @@
-function [matrix_to_turn_into_heat_map,x_y_ticks] = create_heat_map_from_map_of_permutations(data_table,map_of_permutations,dir_to_save_things_to,which_dimension,mask_or_dont,the_title,mask_level,human_stats_map)
+function [matrix_to_turn_into_heat_map,x_y_ticks] = create_heat_map_from_map_of_permutations(data_table,map_of_permutations,dir_to_save_things_to,which_dimension,mask_or_dont,the_title,mask_level,human_stats_map,version_name)
 
     function [matrix_to_turn_into_heat_map] = populate_matrix(matrix_length_and_width,table_from_map,which_dimension)
         matrix_to_turn_into_heat_map = zeros(matrix_length_and_width,matrix_length_and_width);
@@ -58,28 +58,31 @@ function [matrix_to_turn_into_heat_map,x_y_ticks] = create_heat_map_from_map_of_
                     strcat("0: indicates Signficance Level >",string(mask_level)), ...
                     strcat("Number of Data Sessions:",string(human_stats_map('Number of Unique Subjects in all human data'))),...
                     strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-                    "Created By create\_heat\_map\_from\_map\_of\_permutations.m"]);
+                    "Created By create\_heat\_map\_from\_map\_of\_permutations.m", ...
+                    version_name]);
             else
                 title([strcat(the_title, " ",dimension_labels(which_dimension)), ...
                     strcat("Number of Data Sessions:",string(human_stats_map('Number of Unique Subjects in all human data'))),...
                     strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-                    "Created By create\_heat\_map\_from\_map\_of\_permutations.m"]);
+                    "Created By create\_heat\_map\_from\_map\_of\_permutations.m", ...
+                    version_name]);
             end
         else
 
             title([strcat(the_title, " means"), ...
                 strcat("Number of Data Sessions:",string(human_stats_map('Number of Unique Subjects in all human data'))),...
                 strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-            "Created By create\_heat\_map\_from\_map\_of\_permutations.m"]);
+            "Created By create\_heat\_map\_from\_map\_of\_permutations.m", ...
+            version_name]);
         end
 
         xlabel("experiment and cluster")
         ylabel("experiment and cluster")
 
         if ~isnan(which_dimension)
-            saveas(gcf,strcat(dir_to_save_things_to,"\",the_title," ",dimension_labels(which_dimension)),"fig")
+            saveas(gcf,strcat(dir_to_save_things_to,"\",the_title," ",dimension_labels(which_dimension)," ",version_name),"fig")
         else
-            saveas(gcf,strcat(dir_to_save_things_to,"\",the_title," Means"),"fig")
+            saveas(gcf,strcat(dir_to_save_things_to,"\",the_title," Means"," ",version_name),"fig")
         end
 
 

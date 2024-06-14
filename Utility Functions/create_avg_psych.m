@@ -1,4 +1,10 @@
 function create_avg_psych(sesh_data, psych_to_cluster, type, same_scale, save_to)
+%1.)sesh_data:          cell array with the current data type
+%2.)psych_to_cluster:   reformatted story_table
+%3.)type:               string to label based on data
+%4.)same_scale:         boolean to see if everything should be rescaled
+%5.)save_to:            string location to save the figures to 
+figure;
 
 clusters = unique(psych_to_cluster.idx);
 num_clusters = length(clusters);
@@ -62,5 +68,5 @@ if same_scale
 end
 sgtitle("average sigmoid per cluster for " + type)
 savefig(figname)
-close all 
+% close all 
 end

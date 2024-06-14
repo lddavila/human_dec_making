@@ -1,4 +1,4 @@
-function [] = run_average_sigmoids_n_times(human_data_table,proportions_to_match,n,same_scale,want_plot,C,dir_to_save_figs_to_1,dir_to_save_figs_to_2,human_stats_map)
+function [] = run_average_sigmoids_n_times(human_data_table,proportions_to_match,n,same_scale,want_plot,C,dir_to_save_figs_to_1,dir_to_save_figs_to_2,human_stats_map,version_name)
 story_types = unique(human_data_table.experiment);
 hs = [];
 disp("////////////////////////////////////")
@@ -63,7 +63,8 @@ dir_to_save_figs_to_1 = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to
 title(["Each Recreated from 1000 random samplings", ...
     title_strings,...
     strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-    "Created By run\_average\_sigmoids\_n\_times.m"])
+    "Created By run\_average\_sigmoids\_n\_times.m", ...
+    version_name])
 legend(hs,string(story_types))
-saveas(gcf,strcat(dir_to_save_figs_to_1,"\Recreated average XYZ plot using 1000 samples per task type"),"fig")
+saveas(gcf,strcat(dir_to_save_figs_to_1,"\Recreated average XYZ plot using 1000 samples per task type ",version_name),"fig")
 end

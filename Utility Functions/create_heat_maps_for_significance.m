@@ -1,4 +1,4 @@
-function [] = create_heat_maps_for_significance(map_of_significances,the_title,unique_experiments,unique_clusters,dir_to_save_figs_to,human_stats_map)
+function [] = create_heat_maps_for_significance(map_of_significances,the_title,unique_experiments,unique_clusters,dir_to_save_figs_to,human_stats_map,version_name)
     function [matrix_to_be_turned_into_heat_map] = populate_array(x_ticks,updated_x_ticks,y_ticks,map_of_significances,which_dimension)
         matrix_to_be_turned_into_heat_map = zeros(size(y_ticks,2),size(updated_x_ticks,2));
         for cluster_count=1:length(y_ticks)
@@ -42,10 +42,11 @@ function [] = create_heat_maps_for_significance(map_of_significances,the_title,u
             strcat("# of probability sessions",string(human_stats_map("probability Number of Data Points"))),...
             strcat("# of social sessions",string(human_stats_map("social Number of Data Points"))),...
             strcat("Date Created:",string(datetime("today",'Format','MM-d-yyyy'))), ...
-             "Created By create\_heat\_maps\_for\_significance.m"]);
+             "Created By create\_heat\_maps\_for\_significance.m", ...
+             version_name]);
         dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path(dir_to_save_figs_to);
 
-        saveas(gcf,strcat(dir_to_save_figs_to,"\",the_title," ", current_dimension,".fig"),"fig")
+        saveas(gcf,strcat(dir_to_save_figs_to,"\",the_title," ", current_dimension," ",version_name,".fig"),"fig")
         
     end
 

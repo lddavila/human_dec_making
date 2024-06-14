@@ -5,6 +5,7 @@ cd("..")
 
 %% Get all absolute directories of human data
 table_of_human_dir = get_dirs_with_data("sessions");
+
 %% creating rat data from scratch and reading it into file (this part shouldn't be rerun because it takes a long time to run)
 % getting_rat_data; 
 % home_dir = cd(strcat("rat sigmoid data created ",string(datetime("today",'Format','MM-dd-yyyy'))));
@@ -19,7 +20,7 @@ table_of_human_dir = get_dirs_with_data("sessions");
 % table_of_rat_data = table("rat_reward_choice",rat_data_dir,'VariableNames',["Task", "Data_Directory"]);
 % call_FCM_for_each_row_of_data_for_rat(table_of_rat_data,rat_centers,"cluster_tables_for_rat_created_04_16_2024");
 
-%% Final Human Clustering Configuration DO NOT RUN AGAIN 
+%% Final Human Clustering Configuration DO NOT RUN AGAIN PERFROMED ON COST LEVEL
 % centers = [-8.37419 -6.852234e-06 -13.7783;
 %     -6.38284 0.487881 -0.717614;
 %     0 -0.0258518 -5.53169;
@@ -31,16 +32,36 @@ table_of_human_dir = get_dirs_with_data("sessions");
 %     12.72 11.0228 -0.944297];
 % 
 % call_FCM_for_all_human_data(table_of_human_dir,centers,"correct human clusters")
+
+%% run fcm for human data (min_pref_session_clustering) given by lara on 04/30/2024 (NO LONGER USED)
+table_of_human_dir = get_dirs_with_data("min_pref_session_clustering");
+centers = [-10.1585 -1.02752e-06 -16.1319;
+    -5.80644 -4.26703e-05 -12.0296;
+    4.22821 18.1831 2.21769;
+    3.85282 12.1022 1.93693;
+    3.85654 2.66737 -0.125849;
+    4.10031 -15.822 1.28658;
+    12.0855 9.78919 -2.27488;
+    13.8133 10.4947 -1.9166];
+call_FCM_for_all_human_data(table_of_human_dir,centers, "Cluster Table For min_pref_session_clustering")
+
+%% run fcm for human data (session_clustering) given by lara on 04/30/2024 PERFORMS IT ON SESSION LEVEL
+
+table_of_human_dir = get_dirs_with_data("session_clustering");
+centers = [-7.95484 -0.2253 -13.3709;
+    3.83399 10.0293 2.36265;
+    3.90476 2.47576 0.328242;
+    2.4325 -0.657053 -2.12422;
+    12.4931 10.63 -1.04503
+    3.71879 -16.3966 1.35765];
+call_FCM_for_all_human_data(table_of_human_dir,centers, strcat("Cluster Table For session_clustering created on ",string(datetime("today",'Format','MM-d-yyyy'))))
 %% Used just to get plot, don't refer to this 
-centers = [-8.37419 -6.852234e-06 -13.7783;
-    -6.38284 0.487881 -0.717614;
-    0 -0.0258518 -5.53169;
-    0 2.24833 -0.571645;
-    2.49831 -0.286583 -2.1873;
-    4.23446 3.76109 1.05382;
-    3.78414 10.7322 2.43289;
-    8.02055 13.1098 0.657097;
-    12.72 11.0228 -0.944297];
+centers = [-7.95484 -0.2253 -13.3709;
+    3.83399 10.0293 2.36265;
+    3.90476 2.47576 0.328242;
+    2.4325 -0.657053 -2.12422;
+    12.4931 10.63 -1.04503
+    3.71879 -16.3966 1.35765];
 
 call_FCM_for_all_human_data(table_of_human_dir,centers,"doesnt matter")
 %% Used to get mpc for rat clustering, dont refer to this 
@@ -54,7 +75,8 @@ call_FCM_for_each_row_of_data_for_rat(table_of_rat_data,rat_centers,"doesnt matt
 
 %% put rat and human data into a table to be used
 rat_data_table = return_given_cluster_table("rat_reward_choice.xlsx","cluster_tables_for_rat_created_04_16_2024");
-human_data_table = return_given_cluster_table("all human data.xlsx","correct human clusters");
+human_data_table = return_given_cluster_table("all human data.xlsx",strcat("Cluster Table For session_clustering created on ",string(datetime("today",'Format','MM-d-yyyy'))));
+human_data_table = return_given_cluster_table("all human data.xlsx","Cluster Table For min_pref_session_clustering")
 
 %% get human data information (ie. # of subjects, # of data points )
 human_stats_map = get_human_data_table_stats(human_data_table);
@@ -64,21 +86,21 @@ only_aa_data = select_single_experiment_from_data_set_2(human_data_table,"approa
 
 %% create bhaat distance plots comparing rat to human new data, taking the average of the 3 bhaat distance instead of 1 bhaat distance for each dimension
 colors = distinguishable_colors(30);
-create_human_to_rat_comparison_ver_3("rat_reward_choice.xlsx",only_aa_data,"cluster_tables_for_rat_created_04_16_2024","b_dist_plots_updated_3",colors,human_stats_map,rat_stats_map, string(datetime("today",'Format','MM-d-yyyy')))
+create_human_to_rat_comparison_ver_3("rat_reward_choice.xlsx",only_aa_data,"cluster_tables_for_rat_created_04_16_2024",strcat("b_dist_plots_updated_3 Created On",string(datetime("today",'Format','MM-d-yyyy'))),colors,human_stats_map,rat_stats_map, string(datetime("today",'Format','MM-d-yyyy')))
 
 %% create bhaat distance plots comparing rat to human new data, taking the average of the 3 bhaat distance instead of 1 bhaat distance for each plot, all on one plot instead
-create_human_to_rat_comparison_ver_4("rat_reward_choice.xlsx",only_aa_data,"cluster_tables_for_rat_created_04_16_2024","b_dist_plots_updated_4",colors,human_stats_map,rat_stats_map, string(datetime("today",'Format','MM-d-yyyy')));
+create_human_to_rat_comparison_ver_4("rat_reward_choice.xlsx",only_aa_data,"cluster_tables_for_rat_created_04_16_2024",strcat("b_dist_plots_updated_4 Created On",string(datetime("today",'Format','MM-d-yyyy'))),colors,human_stats_map,rat_stats_map, string(datetime("today",'Format','MM-d-yyyy')));
 
 %% create 3d rat and human cluster plots
 colors = distinguishable_colors(10);
-create3d_cluster_plot("cluster_tables_for_rat_created_04_16_2024","rat_reward_choice",colors,"rat","Rat 3d Clustering","log(abs(max))","log(abs(shift))","log(abs(slope))","3d_cluster_plots",rat_stats_map,string(datetime("today",'Format','MM-d-yyyy')))
-create3d_cluster_plot_for_human(human_data_table,colors,"human","human 3d Clustering","log(abs(max))","log(abs(shift))","log(abs(slope))","3d_cluster_plots",human_stats_map,string(datetime("today",'Format','MM-d-yyyy')))
+create3d_cluster_plot("cluster_tables_for_rat_created_04_16_2024","rat_reward_choice",colors,"rat","Rat 3d Clustering","log(abs(max))","log(abs(shift))","log(abs(slope))",strcat("3d_cluster_plots created on",string(datetime("today",'Format','MM-d-yyyy'))),rat_stats_map,string(datetime("today",'Format','MM-d-yyyy')))
+create3d_cluster_plot_for_human(human_data_table,colors,"human","human 3d Clustering","log(abs(max))","log(abs(shift))","log(abs(slope))",strcat("3d_cluster_plots created on ",string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map,string(datetime("today",'Format','MM-d-yyyy')))
 %% create mean bhaat distance plot for rat and human data individually
-create_bhaat_distance_mean_plots_for_single_data_type(rat_data_table,colors,"rat","Rat Bhaatycharrya distance Plots","b_dist_plots individual",rat_stats_map("Number Of Unique Subjects"),rat_stats_map('Number of Data Points'),string(datetime("today",'Format','MM-d-yyyy')))
-create_bhaat_distance_mean_plots_for_single_data_type(human_data_table,colors,"human","Human Bhaatycharrya distance Plots","b_dist_plots individual",human_stats_map("Number of Unique Subjects in all human data"),height(human_data_table),string(datetime("today",'Format','MM-d-yyyy')))
+create_bhaat_distance_mean_plots_for_single_data_type(rat_data_table,colors,"rat","Rat Bhaatycharrya distance Plots",strcat("b_dist_plots individual Created On ",string(datetime("today",'Format','MM-d-yyyy'))),rat_stats_map("Number Of Unique Subjects"),rat_stats_map('Number of Data Points'),string(datetime("today",'Format','MM-d-yyyy')))
+create_bhaat_distance_mean_plots_for_single_data_type(human_data_table,colors,"human","Human Bhaatycharrya distance Plots",strcat("b_dist_plots individual Created On",string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map("Number of Unique Subjects in all human data"),height(human_data_table),string(datetime("today",'Format','MM-d-yyyy')))
 
 %% create overlain spider plots with dg_significance
-create_spider_plots_with_sig_using_dg(human_data_table,"spider plots using dg for significance",human_stats_map)
+create_spider_plots_with_sig_using_dg(human_data_table,strcat("spider plots using dg for significance created on ",string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map)
 % concatenate_many_plots("Spider plots using dg for significance","spider plots using dg for significance.pdf","ALL PDFS")
 
 %% checking for significance using chi2test
@@ -91,76 +113,122 @@ sig_from_dg_chi2test = measure_significance_between_tasks_using_dg(human_data_ta
 comparison_table = table(string(keys(sig_from_dg_chi2test).'),cell2mat(values(sig_from_dg_chi2test).'),cell2mat(values(sig_from_chi2test).'),'VariableNames',{'Story Comparison','p-value from chi2test','p-value from dg_chi2test'});
 
 %% compare human task to each other, and add significance of comparison 
-compare_human_data_to_human_data_using_dg_for_sig(human_data_table,"3d cluster plots human_to_human_comparison",human_stats_map)
-concatenate_many_plots("3d cluster plots human_to_human_comparison","3d cluster plots human_to_human_comparison.pdf","ALL PDFS")
+compare_human_data_to_human_data_using_dg_for_sig(human_data_table,strcat("3d cluster plots human_to_human_comparison created on ",string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map)
+% concatenate_many_plots("3d cluster plots human_to_human_comparison","3d cluster plots human_to_human_comparison.pdf","ALL PDFS")
 
 %% create bhaat distance comparing human experiments to each other
 close all;
 clc;
 colors = distinguishable_colors(20);
-create_bhaat_dist_plts_comparing_human_exp_to_eachother(human_data_table,"b_dist_plots comparing human experiments to each other",colors,human_stats_map);
+create_bhaat_dist_plts_comparing_human_exp_to_eachother(human_data_table,strcat("b_dist_plots comparing human experiments to each other created on",string(datetime("today",'Format','MM-d-yyyy')) ),colors,human_stats_map);
 
 %% get map of all bhaat_distance permutations
 [map_of_bhaat_distance_permutations,map_of_mean_significance_permutations,map_of_variance_significance_permutations] = derive_bhaat_distance_permutations(human_data_table);
  
 %% create heat map of all bhat distance
 clc;
-[bhaat_dist_x_matrix,x_y_ticks] = create_heat_map_from_map_of_permutations(human_data_table,map_of_bhaat_distance_permutations,"heat maps bhaat distance",1,0,"All Clusters Bhaat Distance Permutations",NaN,human_stats_map);
-[bhaat_dist_y_matrix,x_y_ticks] = create_heat_map_from_map_of_permutations(human_data_table,map_of_bhaat_distance_permutations,"heat maps bhaat distance",2,0,"All Clusters Bhaat Distance Permutations",NaN,human_stats_map);
-[bhaat_dist_z_matrix,x_y_ticks] = create_heat_map_from_map_of_permutations(human_data_table,map_of_bhaat_distance_permutations,"heat maps bhaat distance",3,0,"All Clusters Bhaat Distance Permutations",NaN,human_stats_map);
+[bhaat_dist_x_matrix,x_y_ticks] = create_heat_map_from_map_of_permutations(human_data_table,map_of_bhaat_distance_permutations,strcat("heat maps bhaat distance created on ",string(datetime("today",'Format','MM-d-yyyy'))),1,0,"All Clusters Bhaat Distance Permutations",NaN,human_stats_map);
+[bhaat_dist_y_matrix,x_y_ticks] = create_heat_map_from_map_of_permutations(human_data_table,map_of_bhaat_distance_permutations,strcat("heat maps bhaat distance created on",string(datetime("today",'Format','MM-d-yyyy'))),2,0,"All Clusters Bhaat Distance Permutations",NaN,human_stats_map);
+[bhaat_dist_z_matrix,x_y_ticks] = create_heat_map_from_map_of_permutations(human_data_table,map_of_bhaat_distance_permutations,strcat("heat maps bhaat distance created on",string(datetime("today",'Format','MM-d-yyyy'))),3,0,"All Clusters Bhaat Distance Permutations",NaN,human_stats_map);
 [bhaat_dist_mean_matrix,x_y_ticks] = create_heat_map_from_map_of_permutations(human_data_table,map_of_bhaat_distance_permutations,"heat maps bhaat distance",NaN,0,"All Clusters Bhaat Distance Permutations",NaN,human_stats_map);
 %%
-concatenate_many_plots_updated("heat maps bhaat distance","heat maps bhaat distance.pdf","ALL PDFS")
+% concatenate_many_plots_updated("heat maps bhaat distance","heat maps bhaat distance.pdf","ALL PDFS")
 
 %% create chi squared significance permutations (Fig 1L)
-create_heat_maps_for_chi_squared_significance(human_data_table,"heat map chi squared significance",1,0.05,human_stats_map)
-
+% create_heat_maps_for_chi_squared_significance(human_data_table,strcat("heat map chi squared significance created on",string(datetime("today",'Format','MM-d-yyyy'))),1,0.05,human_stats_map)
+create_heat_maps_for_chi_squared_significance(human_data_table,strcat("heat map chi squared for min_pref_session_clustering data significance created on",string(datetime("today",'Format','MM-d-yyyy'))),1,0.05,human_stats_map)
 %% create updated heat maps for bhaat distance with clim([0,1])
 clc;
-mask_given_data_and_create_heat_map([],bhaat_dist_x_matrix,"heat map bhaat distance alexanders updates",x_y_ticks,"bhaat distance of log(abs(max))",'%.1f',human_stats_map)
-mask_given_data_and_create_heat_map([],bhaat_dist_y_matrix,"heat map bhaat distance alexanders updates",x_y_ticks,"bhaat distance of log(abs(shift))",'%.1f',human_stats_map)
-mask_given_data_and_create_heat_map([],bhaat_dist_z_matrix,"heat map bhaat distance alexanders updates",x_y_ticks,"bhaat distance of log(abs(slope))",'%.1f',human_stats_map)
+mask_given_data_and_create_heat_map([],bhaat_dist_x_matrix,strcat("heat map bhaat distance alexanders updates created on",string(datetime("today",'Format','MM-d-yyyy'))),x_y_ticks,"bhaat distance of log(abs(max))",'%.1f',human_stats_map)
+mask_given_data_and_create_heat_map([],bhaat_dist_y_matrix,strcat("heat map bhaat distance alexanders updates created on",string(datetime("today",'Format','MM-d-yyyy'))),x_y_ticks,"bhaat distance of log(abs(shift))",'%.1f',human_stats_map)
+mask_given_data_and_create_heat_map([],bhaat_dist_z_matrix,strcat("heat map bhaat distance alexanders updates created on",string(datetime("today",'Format','MM-d-yyyy'))),x_y_ticks,"bhaat distance of log(abs(slope))",'%.1f',human_stats_map)
 
 %% create heat map for mean all each row is a cluster and each column is an experiment comparison
-create_heat_maps_for_significance(map_of_mean_significance_permutations,"Significant Change In Means Determined using ttest2",unique(human_data_table.experiment),unique(human_data_table.cluster_number),"heatmap mean cut down",human_stats_map)
+create_heat_maps_for_significance(map_of_mean_significance_permutations,"Significant Change In Means Determined using ttest2",unique(human_data_table.experiment),unique(human_data_table.cluster_number),strcat("heatmap mean cut down created on ",string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map)
 %% create heat map for mean all each row is a cluster and each column is an experiment comparison
-create_heat_maps_for_significance(map_of_variance_significance_permutations,"Significant Change In Variances using vartest2",unique(human_data_table.experiment),unique(human_data_table.cluster_number),"heatmap variance cut down",human_stats_map)
+create_heat_maps_for_significance(map_of_variance_significance_permutations,"Significant Change In Variances using vartest2",unique(human_data_table.experiment),unique(human_data_table.cluster_number),strcat("heatmap variance cut down created on",string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map)
 
 %% creaate bar plots showing cluster ratios
 % create_bar_plots_for_cluster_proportions(human_data_table,1,"doesnt matter");
-create_bar_plots_for_cluster_proportions(human_data_table,0,"bar plot human cluster proportions",human_stats_map);
+create_bar_plots_for_cluster_proportions(human_data_table,0,strcat("bar plot human cluster proportions created on",string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map);
 %% get average rat cluster sigmoids % do not run again as random start points will create varying sigmoids
-raw_rat_psychometric_function_data = readtable(strcat(pwd,"\psych functions created 04-15-2024\Baseline reward_choice psychometric functions table.xlsx"));
-create_avg_psych_2("session",1,"Average Sigmoid For Rat Cluster",rat_data_table,raw_rat_psychometric_function_data);
+% raw_rat_psychometric_function_data = readtable(strcat(pwd,"\psych functions created 04-15-2024\Baseline reward_choice psychometric functions table.xlsx"));
+% create_avg_psych_2("session",1,"Average Sigmoid For Rat Cluster",rat_data_table,raw_rat_psychometric_function_data);
 
 %% create an average sigmoid for per experiment set and average sigmoid per cluster of experiment
-mkdir("average_sigmoids")
-mkdir("average_sigmoids_3")
-david_runme2;
+% mkdir("average_sigmoids")
+% mkdir("average_sigmoids_3")
+% david_runme2;
 
 %% get average xyz plots for different human experiments
 % clc;
 % close all;
 C = ['r','g','b','c'];
-get_average_xyz_per_human_experiment_using_spectral_table(human_data_table,C,"average xyz plot all data",human_stats_map)
+get_average_xyz_per_human_experiment_using_spectral_table(human_data_table,C,strcat("average xyz plot all data created on", string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map)
 %% recreate average xyz, using a subset of data instead of all data, but keeping proportions the same
 % clc;
 figure;
 C = ['r','g','b','c'];
 proportions_to_match = get_cluster_counts_2(human_data_table,unique(human_data_table.experiment),unique(human_data_table.cluster_number),1);
 % disp([keys(proportions_to_match).',values(proportions_to_match).'])
-run_average_sigmoids_n_times(human_data_table,cell2mat(values(proportions_to_match).'),1000,1,1,C,"Average XYZ plot recreated from proportional subsets","Average Sigmoid Experiment 2",human_stats_map)
+run_average_sigmoids_n_times(human_data_table,cell2mat(values(proportions_to_match).'),1000,1,1,C,strcat("Average XYZ plot recreated from proportional subsets created on ",string(datetime("today",'Format','MM-d-yyyy'))),"Average Sigmoid Experiment 2",human_stats_map)
+%% recreate average xyz, using weighted mean of each cluster instead of mean of all data
+clc;
+C = ['r','g','b','c'];
+proportions_to_match = get_cluster_counts_2(human_data_table,unique(human_data_table.experiment),unique(human_data_table.cluster_number),1);
+get_average_xyz_per_human_experiment_using_table_and_weights_2(human_data_table,C,strcat("average xyz plot using weighted averages created on",string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map,proportions_to_match);
+
+%% try to recreate xyz using data which is not significantly different data from each task
+clc;
+C = ['r','g','b','c'];
+proportions_to_match = get_cluster_counts_2(human_data_table,unique(human_data_table.experiment),unique(human_data_table.cluster_number),1);
+get_average_xyz_per_human_exp_using_non_sig_diff_data(human_data_table, C,strcat("average xyz recreated with non sig diff data created on",string(datetime("today",'Format','MM-d-yyyy'))),human_stats_map,proportions_to_match,map_of_mean_significance_permutations)
 
 %% recreate average xyz plots using explicitly wrong proportions
 % clc;
 C = ['r','g','b','c'];
 proportions_to_match = get_cluster_counts_2(human_data_table,unique(human_data_table.experiment),unique(human_data_table.cluster_number),1);
 % disp([keys(proportions_to_match).',values(proportions_to_match).'])
-recreate_average_xyz_using_different_proportions(human_data_table,cell2mat(values(proportions_to_match).'),1000,1,1,C,"Average XYZ plot recreated from incorrect proportional subsets","Average Sigmoid Experiment 2",human_stats_map)
+recreate_average_xyz_using_different_proportions(human_data_table,cell2mat(values(proportions_to_match).'),1000,1,1,C,strcat("Average XYZ plot recreated from incorrect proportional subsets created on ",string(datetime("today",'Format','MM-d-yyyy'))),"Average Sigmoid Experiment 2",human_stats_map)
 %% create dec making maps with dec making boundaries for individuals
 david_runme;
 %% create average dec making maps with boundaries for tasks
 hum_new_tasks_runme;
+%% create average dec making map with boundaries for all data together
+
+%% recreate figure 2a, but for rat data
+probability_of_behavior_3d_for_rat(rat_data_table,"probability of behavior 3d for rats",rat_stats_map)
+%% recreate figure 2b, but for rat data
+subjects_in_cluster_3d_for_rat_data(rat_data_table,rat_stats_map,"2b for rat");
+%% recreate figure 2c, but for rat data
+indiv_subjects_in_cluster_3d_for_rat_data(rat_data_table,"individual subjects in cluster 3d for rat data",rat_stats_map)
+
+%% run food dep data (shouldn't run again unless there's new data to be analyzed)
+get_food_dep_rat_data;
+%% run fcm on food dep data (shouldn't be run again unless more data is created)
+% home_dir = cd("food deprivation rat sigmoid data created 04-28-2024");
+% cd("food deprivation reward choice Sigmoid Data\");
+% rat_data_dir = string(cd(home_dir));
+% rat_centers = {[-9.19223 -0.160124 -5.94521; 0.0725309 9.26771 5.38323; -0.0750793 2.44644 4.20085; 7.26216 9.12042 2.84782; -1.0078 3.31472 6.58382; 8.22584 6.32504 6.05144 ]};
+% % rat_centers = {[]};
+% table_of_rat_data = table("food_deprivation_rat_reward_choice",rat_data_dir,'VariableNames',["Task", "Data_Directory"]);
+% call_FCM_for_each_row_of_data_for_rat(table_of_rat_data,rat_centers,"cluster_tables_for_rat_food_deprivation_created_04_28_2024");
+%% split food dep data into 2 bins
+rebin_individual_rats_cluster_info_2("cluster_tables_for_rat_food_deprivation_created_04_28_2024","Cluster Tables Rebinned Into 2 Bins",["Food Deprivation"],2)
+%% 
+%% run prefeeding data (shouldn't be run again unless there's new data to be analyzed)
+% get_prefeeding_rat_data;
+%% run fcm on pre feeding data (shouldn't be run again unless more data is created)
+% home_dir = cd("pre feeding rat sigmoid data created 04-28-2024");
+% cd("pre feeding reward choice Sigmoid Data\");
+% rat_data_dir = string(cd(home_dir));
+% rat_centers = {[-9.19223 -0.160124 -5.94521; 0.0725309 9.26771 5.38323; -0.0750793 2.44644 4.20085; 7.26216 9.12042 2.84782; -1.0078 3.31472 6.58382; 8.22584 6.32504 6.05144 ]};
+% % rat_centers = {[]};
+% table_of_rat_data = table("pre_feeding_rat_reward_choice",rat_data_dir,'VariableNames',["Task", "Data_Directory"]);
+% call_FCM_for_each_row_of_data_for_rat(table_of_rat_data,rat_centers,"cluster_tables_for_rat_pre_feeding_created_04_28_2024");
+%% rebin pre feeding data into 2 bins
+rebin_individual_rats_cluster_info_2("cluster_tables_for_rat_pre_feeding_created_04_28_2024","Cluster Tables Rebinned Into 2 Bins",["Pre Feeding"],2)
+
 %% (NO LONGER USED) FINAL RAT CLUSTERING CONFIGURATION DO NOT RUN AGAIN run 3d fcm analysis for rat reward choice data
 % cd("reward_choice Sigmoid Data\");
 % rat_data_dir = string(cd(".."));
@@ -200,7 +268,7 @@ hum_new_tasks_runme;
 %% use density based cluster on all combined human data (no longer used)
 %call_DB_clustering_combine_all_human_data(table_of_human_dir,"cluster_tables_by_task_new_centers_4",0,14)
 %% get distinct cluster
-colors = distinguishable_colors(10); %get distinguishable cluster colors
+% colors = distinguishable_colors(10); %get distinguishable cluster colors
 %% NO LONGER USED call spectral clustering on all combined human data
 % call_spectral_clustering_combine_all_human_data(table_of_human_dir,"cluster_tables_by_task_new_centers_spectral_based",0,5,colors,'euclidean')
 %% call spectral clustering on all combined human data 6 clusters according to kmeans daviesbouldin using euclidian
