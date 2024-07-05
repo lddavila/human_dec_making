@@ -1,5 +1,18 @@
-table_1_normal = readtable("C:\Users\ldd77\OneDrive\Desktop\human_dec_making\cluster_tables_for_rat_created_04_16_2024\rat_reward_choice.xlsx");
-table_2_food_dep = readtable("C:\Users\ldd77\OneDrive\Desktop\human_dec_making\cluster_tables_for_rat_food_deprivation_created_04_28_2024\food_deprivation_rat_reward_choice.xlsx");
+cd("Utility Functions\")
+addpath(pwd)
+cd("..")
+home_dir = cd("cluster_tables_for_rat_created_04_16_2024\");
+abs_path_for_baseline_data = cd(home_dir);
+cd("cluster_tables_for_rat_food_deprivation_created_04_28_2024\");
+abs_path_for_food_dep_data = cd(home_dir);
+
+
+table_1_normal = readtable(strcat(abs_path_for_baseline_data,"\rat_reward_choice.xlsx"));
+table_2_food_dep = readtable(strcat(abs_path_for_food_dep_data,"\food_deprivation_rat_reward_choice.xlsx"));
+
+
+rat_stats_map = get_rat_data_table_stats(table_1_normal);
+food_dep_rat_stats_map = get_rat_data_table_stats(table_2_food_dep);
 
 cluster_count_normal=get_cluster_counts(table_1_normal,unique(table_1_normal.cluster_number));
 cluster_count_food_dep = get_cluster_counts(table_2_food_dep,unique(table_1_normal.cluster_number));
@@ -9,3 +22,6 @@ disp(p)
 disp(q)
 disp(cluster_count_normal)
 disp(cluster_count_food_dep)
+
+create3d_cluster_plot_with_chi_squared("cluster_tables_for_rat_created_04_16_2024","rat_reward_choice.xlsx",distinguishable_colors(30),"Rat", "Rat Baseline","(log(abs(max))","log(abs(shift))","log(abs(slope))","Baseline Rats Vs Food Deprived Rats",rat_stats_map,string(datetime("today",'Format','MM-d-yyyy')),"",p)
+create3d_cluster_plot_with_chi_squared("cluster_tables_for_rat_food_deprivation_created_04_28_2024","food_deprivation_rat_reward_choice.xlsx",distinguishable_colors(30),"Rat", "Rat Food Deprivation","(log(abs(max))","log(abs(shift))","log(abs(slope))","Baseline Rats Vs Food Deprived Rats",food_dep_rat_stats_map,string(datetime("today",'Format','MM-d-yyyy')),"",p)

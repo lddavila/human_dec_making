@@ -28,7 +28,7 @@ function [] = run_permutations_based_on_meta_data(human_data_table,all_data,all_
     end
 
 
-    function [significant_changes,var_significance_matrix,mean_significance_matrix,y_labels,p] = check_for_significant_differences(lower_bound_table,upper_bound_table,unique_clusters,threshold,what_percentage_must_be_significant,hunger_threshold,tiredness_threshold,pain_threshold,preference_threshold)
+    function [significant_changes,var_significance_matrix,mean_significance_matrix,y_labels,p,pwrout_for_x,pwrout_for_y,pwrout_for_z] = check_for_significant_differences(lower_bound_table,upper_bound_table,unique_clusters,threshold,what_percentage_must_be_significant,hunger_threshold,tiredness_threshold,pain_threshold,preference_threshold)
         lower_bound_cluster_counts = get_cluster_counts(lower_bound_table,unique_clusters);
         upper_bound_cluster_counts = get_cluster_counts(upper_bound_table,unique_clusters);
         [p,~] = chi2test([lower_bound_cluster_counts;upper_bound_cluster_counts]);
@@ -39,6 +39,7 @@ function [] = run_permutations_based_on_meta_data(human_data_table,all_data,all_
             disp("Had Significant Change In Density")
             disp(p);
             disp(strcat("Found For Hunger Threshold:",string(hunger_threshold)," Tiredness Threshold:",string(tiredness_threshold)," Pain Threshold:",string(pain_threshold)));
+            
         end
 
         number_of_significances_to_beat = length(unique_clusters) * 3 * what_percentage_must_be_significant;
@@ -97,6 +98,27 @@ function [] = run_permutations_based_on_meta_data(human_data_table,all_data,all_
             disp(strcat("Found For Hunger Threshold:",string(hunger_threshold)," Tiredness Threshold:",string(tiredness_threshold)," Pain Threshold:",string(pain_threshold)," Story Pref Threshold: ",string(preference_threshold)));
             disp("/////////////////////")
         end
+
+        if size(lower_bound_table,1) > size(upper_bound_table,1)
+            n = size(upper_bound_table,1);
+            resized_lower_bound_table = datasample(lower_bound_table,n);
+            resized_upper_bound_table = upper_bound_table;
+        elseif size(lower_bound_table,1) <= size(upper_bound_table,1)
+            n=size(lower_bound_table,1);
+            resized_upper_bound_table = datasample(upper_bound_table,n);
+            resized_lower_bound_table = lower_bound_table;
+        end
+
+        var_of_entire_lower_threshold_data_set = var([resized_lower_bound_table.clusterX,resized_lower_bound_table.clusterY,resized_lower_bound_table.clusterZ],'dim',1);
+        var_of_entire_upper_threshold_data_set = var([resized_upper_bound_table,clusterX,resized_upper_bound_table.clusterY,resized_upper_bound_table.clusterZ],'dim',1);
+
+        pwrout_for_x = sampsizepwr('var',var_of_entire_lower_threshold_data_set(1),var_of_entire_upper_threshold_data_set(1),[],n);
+        pwrout_for_y = sampsizepwr('var',var_of_entire_lower_threshold_data_set(2),var_of_entire_upper_threshold_data_set(2),[],n);
+        pwrout_for_z = sampsizepwr('var',var_of_entire_lower_threshold_data_set(3),var_of_entire_upper_threshold_data_set(3),[],n);
+        %pwrout = sampsizepwr(testtype,p0,p1,[],n) returns the power achieved for a sample size of n when the true parameter value is p1.
+        %If testtype is 'var', then p0 is the variance under the null hypothesis.
+        % If testtype is 'var', then p1 is the variance under the alternative hypothesis.
+
     end
 
     function [] = create_heat_map_of_significant_changes(heat_map_matrix_mean,heat_map_matrix_var,y_labels,hunger_threshold,tiredness_threshold,pain_threshold,p,number_of_dp_in_lower_threshold,number_of_dp_in_upper_threshold,threshold,dir_to_save_figs_to,preference_threshold)
@@ -169,7 +191,7 @@ for hunger_threshold=0:10:100
 
 
 
-                [found_significant_changes,var_significance_matrix,mean_significance_matrix,y_labels,p] = check_for_significant_differences(table_of_lower_thresholds,table_of_upper_thresholds,unique(human_data_table.cluster_number),threshold,what_percentage_must_be_significant,hunger_threshold,tiredness_threshold,pain_threshold,preference_threshold);
+                [found_significant_changes,var_significance_matrix,mean_significance_matrix,y_labels,p,pwrout_for_x,pwrout_for_y,pwrout_for_z] = check_for_significant_differences(table_of_lower_thresholds,table_of_upper_thresholds,unique(human_data_table.cluster_number),threshold,what_percentage_must_be_significant,hunger_threshold,tiredness_threshold,pain_threshold,preference_threshold);
 
                 dir_to_save_figs_to = strcat("3d Cluster Plots Hunger split at ",string(hunger_threshold)," Tiredness Split At ",string(tiredness_threshold)," Pain Split At ",string(pain_threshold)," Story Prefs Split At ", string(preference_threshold), "chi squared ",string(round(p,3)));
                 if found_significant_changes
@@ -181,7 +203,7 @@ for hunger_threshold=0:10:100
 
                     create_heat_map_of_significant_changes(mean_significance_matrix,var_significance_matrix,y_labels,hunger_threshold,tiredness_threshold,pain_threshold,p,height(table_of_lower_thresholds),height(table_of_upper_thresholds),threshold,dir_to_save_figs_to,preference_threshold);
 
-                    which_is_bigger = check_which_is_bigger_and_return_the_result(table_of_upper_thresholds,table_of_lower_thresholds);
+                    % which_is_bigger = check_which_is_bigger_and_return_the_result(table_of_upper_thresholds,table_of_lower_thresholds);
 
                     % if strcmpi(which_is_bigger,"Upper")
                     %     smaller_upper_table = get_random_sample_based_on_size(table_of_upper_thresholds,table_of_lower_thresholds);

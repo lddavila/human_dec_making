@@ -30,13 +30,14 @@ moral_sessions = sessions_by_tasktype(N_trial_data, "moral");
 
 
 
-%% avg map per task
+% avg map per task
 
 story_types = ["approach_avoid", "social", "probability", "moral"];
 data{1} = appr_avoid_combined_data;
 data{2} = social_combined_data;
 data{3} = probability_combined_data;
 data{4} = moral_combined_data;
+dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path("avg dec maps");
 path_to_save = strcat(pwd,"\avg dec maps");
 want_bdry = 1;
 want_scale = 1;

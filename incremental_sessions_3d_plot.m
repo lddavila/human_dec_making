@@ -1,14 +1,14 @@
-%% add the Utility functions to my path
+%% Set up part 1: add the Utility functions to my path
 cd("Utility Functions\")
 addpath(pwd)
 cd("..")
 data_dir = "C:\Users\ldd77\OneDrive\Desktop\human_dec_making\session_clustering";
 do_the_copying = 0;
-do_the_fcm = 0;
+do_the_fcm = 1;
 do_the_chi_squared_graph =0;
-do_the_average_xyz = 1;
-%% copy only the data which meets the threshold
-for i=0:10:100
+do_the_average_xyz = 0;
+%% Set up part 2: copy the data (if necessary) and make plot
+for i=70:10:100
     threshold = i;
     % if threshold ~= 40
     %     continue;

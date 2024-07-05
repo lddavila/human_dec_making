@@ -31,6 +31,7 @@ data{2} = social_combined_data;
 data{3} = probability_combined_data;
 data{4} = moral_combined_data;
 path_to_save = strcat(pwd,'\dec making maps');
+dir_to_save_figs_to = create_a_file_if_it_doesnt_exist_and_ret_abs_path("dec making maps");
 for i = 1:4
     combined_data = data{i};
     story_type = story_types{i};

@@ -1,4 +1,4 @@
-%% add the Utility functions to my path
+%% SETUP PART 1.) add the Utility functions to my path
 cd("Utility Functions\")
 addpath(pwd)
 cd("..")
@@ -12,15 +12,14 @@ table_of_human_dir = get_dirs_with_data("session_clustering");
 %     12.4931 10.63 -1.04503
 %     3.71879 -16.3966 1.35765];
 % call_FCM_for_all_human_data(table_of_human_dir,centers, strcat("Cluster Table For session_clustering created on ",string(datetime("today",'Format','MM-d-yyyy'))))
-%% Used just to get plot, don't refer to this 
+%% SF 3B: Used just to get plot, don't refer to this 
 centers = [-7.95484 -0.2253 -13.3709;
     3.83399 10.0293 2.36265;
     3.90476 2.47576 0.328242;
-    2.4325 -0.657053 -2.12422;
     12.4931 10.63 -1.04503
     3.71879 -16.3966 1.35765];
 
-% call_FCM_for_all_human_data(table_of_human_dir,centers,"doesnt matter")
+call_FCM_for_all_human_data(table_of_human_dir,centers,"doesnt matter")
 
 %% put rat and human data into a table to be used
 rat_data_table = return_given_cluster_table("rat_reward_choice.xlsx","cluster_tables_for_rat_created_04_16_2024");
